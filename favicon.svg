@@ -1,28 +1,29 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <!-- Brand Layers -->
+  <!-- Navy Outer Border -->
   <circle cx="256" cy="256" r="256" fill="#0f172a" />
+  <!-- White Inner Ring -->
   <circle cx="256" cy="256" r="235" fill="#ffffff" />
+  <!-- Purple Background -->
   <circle cx="256" cy="256" r="215" fill="#a855f7" />
 
   <!-- Stars -->
   <circle cx="150" cy="120" r="12" fill="#ffffff" opacity="0.4" />
-  <circle cx="420" cy="250" r="10" fill="#38bdf8" opacity="0.6" />
+  <circle cx="420" cy="220" r="10" fill="#38bdf8" opacity="0.6" />
 
   <!-- B-Toothbrush -->
   <g transform="translate(256, 256) rotate(-45) translate(-256, -256)">
-    <!-- Slim Handle (shifted up slightly to make room for big bristles) -->
-    <rect x="20" y="210" width="420" height="30" rx="15" fill="#1e40af" />
+    <!-- Professional Thick Handle (60px) -->
+    <rect x="20" y="240" width="400" height="60" rx="30" fill="#1e40af" />
     
-    <!-- 50% Larger B-Bristles on the bottom side -->
-    <g transform="translate(120, 240)">
-      <!-- First Loop (Large) -->
-      <path d="M0 0 a75 75 0 0 0 150 0 z" fill="#3b82f6" />
-      <!-- Second Loop (Large) -->
-      <path d="M150 0 a75 75 0 0 0 150 0 z" fill="#3b82f6" />
+    <!-- B-Bristles (Aligned to handle tip and on the top side) -->
+    <g transform="translate(100, 240)">
+      <!-- Large B Loops with Blue Outline -->
+      <path d="M0 0 a75 75 0 0 1 150 0 z" fill="#3b82f6" stroke="#1d4ed8" stroke-width="8" />
+      <path d="M150 0 a75 75 0 0 1 150 0 z" fill="#3b82f6" stroke="#1d4ed8" stroke-width="8" />
       
-      <!-- Bristle Texture -->
-      <path d="M30 10 v40 M75 10 v60 M120 10 v40" stroke="#ffffff" stroke-width="4" opacity="0.2" stroke-linecap="round" />
-      <path d="M180 10 v40 M225 10 v60 M270 10 v40" stroke="#ffffff" stroke-width="4" opacity="0.2" stroke-linecap="round" />
+      <!-- Bristle Definition -->
+      <path d="M40 -15 v30 M75 -20 v40 M110 -15 v30" stroke="#ffffff" stroke-width="5" opacity="0.15" stroke-linecap="round" />
+      <path d="M190 -15 v30 M225 -20 v40 M260 -15 v30" stroke="#ffffff" stroke-width="5" opacity="0.15" stroke-linecap="round" />
     </g>
   </g>
 </svg>
