@@ -6,28 +6,25 @@
   <!-- Purple Background -->
   <circle cx="256" cy="256" r="215" fill="#a855f7" />
 
-  <!-- Background Decorative Elements -->
-  <circle cx="120" cy="200" r="10" fill="#38bdf8" opacity="0.6" />
-  <path d="M400 150l12 12-12 12-12-12z" fill="#ffffff" opacity="0.5" />
-  <circle cx="380" cy="400" r="8" fill="#38bdf8" opacity="0.4" />
+  <!-- Stars -->
+  <circle cx="120" cy="180" r="10" fill="#ffffff" opacity="0.4" />
+  <path d="M420 150l12 12-12 12-12-12z" fill="#38bdf8" opacity="0.6" />
 
-  <!-- B-Toothbrush -->
+  <!-- Toothbrush Group -->
   <g transform="translate(256, 256) rotate(-45) translate(-256, -256)">
-    <!-- Handle -->
-    <rect x="40" y="226" width="300" height="60" rx="30" fill="#3b82f6" />
+    <!-- Toothbrush Handle (Darker Blue) -->
+    <rect x="20" y="226" width="380" height="60" rx="30" fill="#1e40af" />
     
-    <!-- B-Head (Bristles part) -->
-    <g fill="#3b82f6">
-      <!-- B Spine -->
-      <rect x="300" y="126" width="60" height="260" rx="10" />
-      <!-- Top Bubble -->
-      <path d="M360 126 h40 a65 65 0 0 1 0 130 h-40 z" />
-      <!-- Bottom Bubble -->
-      <path d="M360 256 h40 a65 65 0 0 1 0 130 h-40 z" />
+    <!-- B-Bristles (Lighter Blue, looping from the handle) -->
+    <g transform="translate(310, 106)">
+      <!-- Top Loop -->
+      <path d="M0 0 h70 a60 60 0 0 1 0 120 h-70 z" fill="#3b82f6" />
+      <!-- Bottom Loop -->
+      <path d="M0 120 h70 a60 60 0 0 1 0 120 h-70 z" fill="#3b82f6" />
+      
+      <!-- Inner "B" holes for definition -->
+      <path d="M30 30 h10 a30 30 0 0 1 0 60 h-10 z" fill="#a855f7" opacity="0.2" />
+      <path d="M30 150 h10 a30 30 0 0 1 0 60 h-10 z" fill="#a855f7" opacity="0.2" />
     </g>
-    
-    <!-- White Highlight on B for definition -->
-    <path d="M320 160 v50 h30 a25 25 0 0 0 0 -50 z" fill="#ffffff" opacity="0.2" />
-    <path d="M320 290 v50 h30 a25 25 0 0 0 0 -50 z" fill="#ffffff" opacity="0.2" />
   </g>
 </svg>
