@@ -23,7 +23,7 @@ export const useTimer = ({
   const lastElapsedTimeRef = useRef(0);
   const lastTransitionTimeRef = useRef(0);
 
-  const tick = useCallback(() => {
+  const tick = useCallback(function animate() {
     const now = Date.now();
     const delta = (now - startTimeRef.current) / 1000;
 
@@ -60,8 +60,8 @@ export const useTimer = ({
       }
     }
 
-    requestRef.current = requestAnimationFrame(tick);
-  }, [state, currentQuadrant]);
+    requestRef.current = requestAnimationFrame(animate);
+  }, [state, currentQuadrant, TOTAL_TIME, quadrantDuration, transitionDuration]);
 
   const start = () => {
     if (state === TIMER_STATES.IDLE || state === TIMER_STATES.USER_PAUSED) {

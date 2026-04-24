@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 
 const STORAGE_KEYS = {
   SESSION_COUNT: 'brushquest_session_count',
@@ -8,7 +8,7 @@ const STORAGE_KEYS = {
 
 export const usePersistence = () => {
   const [sessionCount, setSessionCount] = useState(() => {
-    return parseInt(localStorage.getItem(STORAGE_KEYS.SESSION_COUNT) || '0', 10);
+    return Number.parseInt(localStorage.getItem(STORAGE_KEYS.SESSION_COUNT) || '0', 10);
   });
 
   const [settings, setSettings] = useState(() => {

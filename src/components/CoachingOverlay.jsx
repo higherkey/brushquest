@@ -1,4 +1,4 @@
-import React from 'react';
+import PropTypes from 'prop-types';
 import { motion } from 'framer-motion';
 
 const CoachingOverlay = ({ currentQuadrant, isBrushing }) => {
@@ -94,6 +94,11 @@ const CoachingOverlay = ({ currentQuadrant, isBrushing }) => {
       </div>
     </div>
   );
+};
+
+CoachingOverlay.propTypes = {
+  currentQuadrant: PropTypes.number.isRequired,
+  isBrushing: PropTypes.bool.isRequired,
 };
 
 export default CoachingOverlay;

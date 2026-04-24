@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 
 export const useAudio = (defaultVolume = 0.1) => {
   const playSound = useCallback((type, volumeOverride) => {
-    const volume = volumeOverride !== undefined ? volumeOverride : defaultVolume;
+    const volume = volumeOverride === undefined ? defaultVolume : volumeOverride;
     const ctx = new (globalThis.AudioContext || globalThis.webkitAudioContext)();
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
@@ -39,7 +39,7 @@ export const useAudio = (defaultVolume = 0.1) => {
         osc.frequency.setValueAtTime(523.25, now); // C5
         osc.frequency.setValueAtTime(659.25, now + 0.1); // E5
         osc.frequency.setValueAtTime(783.99, now + 0.2); // G5
-        osc.frequency.setValueAtTime(1046.50, now + 0.3); // C6
+        osc.frequency.setValueAtTime(1046.5, now + 0.3); // C6
         rampVolume(volume, 0.6);
         osc.start(now);
         osc.stop(now + 0.6);
@@ -47,7 +47,7 @@ export const useAudio = (defaultVolume = 0.1) => {
       default:
         break;
     }
-  }, []);
+  }, [defaultVolume]);
 
   return { playSound };
 };

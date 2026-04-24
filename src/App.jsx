@@ -14,7 +14,6 @@ function App() {
   const {
     state,
     elapsedTime,
-    transitionTime,
     currentQuadrant,
     start,
     pause,
@@ -35,7 +34,7 @@ function App() {
       playSound('complete');
       incrementSession();
     }
-  }, [state, playSound, incrementSession]);
+  }, [state, elapsedTime, playSound, incrementSession]);
 
   const formatTime = (time) => {
     const remaining = Math.max(0, 120 - Math.floor(time));

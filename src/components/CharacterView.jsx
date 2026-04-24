@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { useRive, useStateMachineInput } from '@rive-app/canvas';
 import { TIMER_STATES } from '../hooks/useTimer';
 
@@ -18,23 +19,26 @@ const CharacterView = ({ state }) => {
   useEffect(() => {
     if (!rive) return;
 
-    switch (state) {
-      case TIMER_STATES.RUNNING:
-        if (isBrushingInput) isBrushingInput.value = true;
-        if (isPausedInput) isPausedInput.value = false;
-        break;
-      case TIMER_STATES.USER_PAUSED:
-      case TIMER_STATES.PAUSE_TRANSITION:
-        if (isBrushingInput) isBrushingInput.value = false;
-        if (isPausedInput) isPausedInput.value = true;
-        break;
-      case TIMER_STATES.COMPLETE:
-        if (isFinishedInput) isFinishedInput.value = true;
-        break;
-      default:
-        if (isBrushingInput) isBrushingInput.value = false;
-        if (isPausedInput) isPausedInput.value = false;
+    const stateMap = {
+      [TIMER_STATES.RUNNING]: { brushing: true, paused: false },
+      [TIMER_STATES.USER_PAUSED]: { brushing: false, paused: true },
+      [TIMER_STATES.PAUSE_TRANSITION]: { brushing: false, paused: true },
+      [TIMER_STATES.COMPLETE]: { finished: true },
+    };
+
+    const config = stateMap[state] || { brushing: false, paused: false };
+
+    /* eslint-disable react-hooks/immutability */
+    if (isBrushingInput && 'brushing' in config) {
+      isBrushingInput.value = config.brushing;
     }
+    if (isPausedInput && 'paused' in config) {
+      isPausedInput.value = config.paused;
+    }
+    if (isFinishedInput && 'finished' in config) {
+      isFinishedInput.value = config.finished;
+    }
+    /* eslint-enable react-hooks/immutability */
   }, [rive, state, isBrushingInput, isPausedInput, isFinishedInput]);
 
   return (
@@ -42,6 +46,10 @@ const CharacterView = ({ state }) => {
       <RiveComponent />
     </div>
   );
+};
+
+CharacterView.propTypes = {
+  state: PropTypes.string.isRequired,
 };
 
 export default CharacterView;
