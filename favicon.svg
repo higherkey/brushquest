@@ -1,16 +1,22 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <defs>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#38bdf8;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#818cf8;stop-opacity:1" />
-    </linearGradient>
-  </defs>
-  <!-- Minimalist Toothbrush Handle -->
-  <rect x="4" y="22" width="24" height="6" rx="3" fill="url(#grad)" />
-  <!-- Brush Head -->
-  <rect x="20" y="14" width="8" height="8" rx="2" fill="url(#grad)" />
-  <!-- Sparkle -->
-  <path d="M10 4 L11 9 L16 10 L11 11 L10 16 L9 11 L4 10 L9 9 Z" fill="#38bdf8">
-    <animate attributeName="opacity" values="1;0.3;1" dur="3s" repeatCount="indefinite" />
-  </path>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Outer Navy Border -->
+  <circle cx="256" cy="256" r="256" fill="#0f172a" />
+  <!-- White Inner Ring -->
+  <circle cx="256" cy="256" r="235" fill="#ffffff" />
+  <!-- Main Purple Background -->
+  <circle cx="256" cy="256" r="210" fill="#a855f7" />
+
+  <!-- Background Decorative Elements -->
+  <path d="M350 120l15 15-15 15-15-15z" fill="#ffffff" opacity="0.5" />
+  <path d="M150 350l10 10-10 10-10-10z" fill="#ffffff" opacity="0.3" />
+  <circle cx="420" cy="300" r="15" fill="#38bdf8" opacity="0.4" />
+  <circle cx="100" cy="180" r="10" fill="#38bdf8" opacity="0.6" />
+  
+  <!-- Toothbrush Handle (Blue) -->
+  <rect x="0" y="380" width="350" height="80" rx="40" fill="#2563eb" transform="rotate(-45 256 256)" />
+  
+  <!-- Toothbrush 'B' Head (Blue) -->
+  <g transform="translate(230, 110) rotate(-15)">
+    <path d="M0 0h120c40 0 70 30 70 70s-30 70-70 70h-50v60h120c40 0 70 30 70 70s-30 70-70 70h-170v-340zm70 70v70h50c15 0 25-10 25-25s-10-25-25-25h-50zm0 140v80h50c15 0 25-10 25-25s-10-25-25-25h-50z" fill="#2563eb" />
+  </g>
 </svg>
