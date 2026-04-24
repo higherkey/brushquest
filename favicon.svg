@@ -1,22 +1,33 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <!-- Outer Navy Border -->
+  <!-- Navy Outer Border -->
   <circle cx="256" cy="256" r="256" fill="#0f172a" />
   <!-- White Inner Ring -->
   <circle cx="256" cy="256" r="235" fill="#ffffff" />
-  <!-- Main Purple Background -->
-  <circle cx="256" cy="256" r="210" fill="#a855f7" />
+  <!-- Purple Background -->
+  <circle cx="256" cy="256" r="215" fill="#a855f7" />
 
   <!-- Background Decorative Elements -->
-  <path d="M350 120l15 15-15 15-15-15z" fill="#ffffff" opacity="0.5" />
-  <path d="M150 350l10 10-10 10-10-10z" fill="#ffffff" opacity="0.3" />
-  <circle cx="420" cy="300" r="15" fill="#38bdf8" opacity="0.4" />
-  <circle cx="100" cy="180" r="10" fill="#38bdf8" opacity="0.6" />
-  
-  <!-- Toothbrush Handle (Blue) -->
-  <rect x="0" y="380" width="350" height="80" rx="40" fill="#2563eb" transform="rotate(-45 256 256)" />
-  
-  <!-- Toothbrush 'B' Head (Blue) -->
-  <g transform="translate(230, 110) rotate(-15)">
-    <path d="M0 0h120c40 0 70 30 70 70s-30 70-70 70h-50v60h120c40 0 70 30 70 70s-30 70-70 70h-170v-340zm70 70v70h50c15 0 25-10 25-25s-10-25-25-25h-50zm0 140v80h50c15 0 25-10 25-25s-10-25-25-25h-50z" fill="#2563eb" />
+  <circle cx="120" cy="200" r="10" fill="#38bdf8" opacity="0.6" />
+  <path d="M400 150l12 12-12 12-12-12z" fill="#ffffff" opacity="0.5" />
+  <circle cx="380" cy="400" r="8" fill="#38bdf8" opacity="0.4" />
+
+  <!-- B-Toothbrush -->
+  <g transform="translate(256, 256) rotate(-45) translate(-256, -256)">
+    <!-- Handle -->
+    <rect x="40" y="226" width="300" height="60" rx="30" fill="#3b82f6" />
+    
+    <!-- B-Head (Bristles part) -->
+    <g fill="#3b82f6">
+      <!-- B Spine -->
+      <rect x="300" y="126" width="60" height="260" rx="10" />
+      <!-- Top Bubble -->
+      <path d="M360 126 h40 a65 65 0 0 1 0 130 h-40 z" />
+      <!-- Bottom Bubble -->
+      <path d="M360 256 h40 a65 65 0 0 1 0 130 h-40 z" />
+    </g>
+    
+    <!-- White Highlight on B for definition -->
+    <path d="M320 160 v50 h30 a25 25 0 0 0 0 -50 z" fill="#ffffff" opacity="0.2" />
+    <path d="M320 290 v50 h30 a25 25 0 0 0 0 -50 z" fill="#ffffff" opacity="0.2" />
   </g>
 </svg>
