@@ -1,28 +1,31 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <!-- Brand Layers -->
+  <!-- Navy Outer Q -->
   <circle cx="256" cy="256" r="256" fill="#0f172a" />
+  <!-- Q Tail (Integrated into navy border) -->
+  <path d="M400 400 L490 490" stroke="#0f172a" stroke-width="70" stroke-linecap="round" />
+
+  <!-- White Inner Ring -->
   <circle cx="256" cy="256" r="235" fill="#ffffff" />
+  <!-- Purple Background -->
   <circle cx="256" cy="256" r="215" fill="#a855f7" />
 
   <!-- Stars -->
   <circle cx="150" cy="120" r="12" fill="#ffffff" opacity="0.4" />
-  <circle cx="420" cy="250" r="10" fill="#38bdf8" opacity="0.6" />
+  <circle cx="420" cy="220" r="10" fill="#38bdf8" opacity="0.6" />
 
   <!-- B-Toothbrush -->
   <g transform="translate(256, 256) rotate(-45) translate(-256, -256)">
-    <!-- Twice as Thick Handle -->
-    <rect x="20" y="195" width="420" height="60" rx="30" fill="#1e40af" />
+    <!-- Thick Handle -->
+    <rect x="20" y="180" width="420" height="90" rx="45" fill="#1e40af" />
     
-    <!-- B-Bristles on the bottom side -->
-    <g transform="translate(120, 255)">
-      <!-- First Loop (Large) -->
-      <path d="M0 0 a75 75 0 0 0 150 0 z" fill="#3b82f6" />
-      <!-- Second Loop (Large) -->
-      <path d="M150 0 a75 75 0 0 0 150 0 z" fill="#3b82f6" />
+    <!-- B-Bristles with Outline -->
+    <g transform="translate(120, 270)">
+      <path d="M0 0 a75 75 0 0 0 150 0 z" fill="#3b82f6" stroke="#1e40af" stroke-width="12" stroke-linejoin="round" />
+      <path d="M150 0 a75 75 0 0 0 150 0 z" fill="#3b82f6" stroke="#1e40af" stroke-width="12" stroke-linejoin="round" />
       
-      <!-- Bristle Texture -->
-      <path d="M30 10 v40 M75 10 v60 M120 10 v40" stroke="#ffffff" stroke-width="4" opacity="0.2" stroke-linecap="round" />
-      <path d="M180 10 v40 M225 10 v60 M270 10 v40" stroke="#ffffff" stroke-width="4" opacity="0.2" stroke-linecap="round" />
+      <!-- Texture -->
+      <path d="M30 15 v40 M75 15 v60 M120 15 v40" stroke="#ffffff" stroke-width="4" opacity="0.2" stroke-linecap="round" />
+      <path d="M180 15 v40 M225 15 v60 M270 15 v40" stroke="#ffffff" stroke-width="4" opacity="0.2" stroke-linecap="round" />
     </g>
   </g>
 </svg>
