@@ -1,28 +1,28 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <!-- Brand Background Layers -->
+  <!-- Brand Layers -->
   <circle cx="256" cy="256" r="256" fill="#0f172a" />
   <circle cx="256" cy="256" r="235" fill="#ffffff" />
   <circle cx="256" cy="256" r="215" fill="#a855f7" />
 
-  <!-- Background Accents -->
-  <circle cx="150" cy="150" r="12" fill="#ffffff" opacity="0.4" />
-  <circle cx="400" cy="350" r="10" fill="#38bdf8" opacity="0.6" />
+  <!-- Stars -->
+  <circle cx="150" cy="120" r="12" fill="#ffffff" opacity="0.4" />
+  <circle cx="420" cy="250" r="10" fill="#38bdf8" opacity="0.6" />
 
   <!-- B-Toothbrush -->
   <g transform="translate(256, 256) rotate(-45) translate(-256, -256)">
-    <!-- Thin Professional Handle -->
-    <rect x="40" y="241" width="400" height="30" rx="15" fill="#1e40af" />
+    <!-- Slim Handle (shifted up slightly to make room for big bristles) -->
+    <rect x="20" y="210" width="420" height="30" rx="15" fill="#1e40af" />
     
-    <!-- Head/Bristles forming the letter 'B' -->
-    <g transform="translate(260, 241)">
-      <!-- First Loop of B -->
-      <path d="M0 0 a45 45 0 0 1 90 0 z" fill="#3b82f6" />
-      <!-- Second Loop of B -->
-      <path d="M90 0 a45 45 0 0 1 90 0 z" fill="#3b82f6" />
+    <!-- 50% Larger B-Bristles on the bottom side -->
+    <g transform="translate(120, 240)">
+      <!-- First Loop (Large) -->
+      <path d="M0 0 a75 75 0 0 0 150 0 z" fill="#3b82f6" />
+      <!-- Second Loop (Large) -->
+      <path d="M150 0 a75 75 0 0 0 150 0 z" fill="#3b82f6" />
       
-      <!-- Bristle texture/definition -->
-      <path d="M10 0 v-20 M30 0 v-30 M50 0 v-30 M70 0 v-20" stroke="#ffffff" stroke-width="2" opacity="0.3" />
-      <path d="M100 0 v-20 M120 0 v-30 M140 0 v-30 M160 0 v-20" stroke="#ffffff" stroke-width="2" opacity="0.3" />
+      <!-- Bristle Texture -->
+      <path d="M30 10 v40 M75 10 v60 M120 10 v40" stroke="#ffffff" stroke-width="4" opacity="0.2" stroke-linecap="round" />
+      <path d="M180 10 v40 M225 10 v60 M270 10 v40" stroke="#ffffff" stroke-width="4" opacity="0.2" stroke-linecap="round" />
     </g>
   </g>
 </svg>
