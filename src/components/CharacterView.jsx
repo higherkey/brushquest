@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useRive, useStateMachineInput } from '@rive-app/canvas';
+import { useRive, useStateMachineInput } from '@rive-app/react-canvas';
 import { TIMER_STATES } from '../hooks/useTimer';
 
 const CharacterView = ({ state }) => {
@@ -42,7 +42,7 @@ const CharacterView = ({ state }) => {
   }, [rive, state, isBrushingInput, isPausedInput, isFinishedInput]);
 
   return (
-    <div className="character-canvas">
+    <div className="character-canvas" aria-label="Animated character showing toothbrushing progress">
       <RiveComponent />
     </div>
   );

@@ -2,10 +2,10 @@
 
 ## 1) Planned Work
 - **TODO List**:
-    - [ ] Swap `@rive-app/canvas` for `@rive-app/react-canvas` in `package.json`.
-    - [ ] Update `CharacterView.jsx` imports and add `aria-label`.
-    - [ ] Build and verify locally.
-    - [ ] Clean up `index.html` (remove diagnostic script).
+    - [x] Swap `@rive-app/canvas` for `@rive-app/react-canvas` in `package.json`.
+    - [x] Update `CharacterView.jsx` imports and add `aria-label`.
+    - [x] Build and verify locally.
+    - [x] Clean up `index.html` (remove diagnostic script).
 - **File List**:
     - `package.json` (Modify)
     - `src/components/CharacterView.jsx` (Modify)
@@ -18,12 +18,18 @@
 ---
 
 ## 2) In Progress Work
-- `package.json`
+- (None)
 
 ---
 
 ## 3) Completed Work
-- (Empty)
+- **Summary**:
+    - `package.json` & `package-lock.json`: Replaced `@rive-app/canvas` with `@rive-app/react-canvas` to fix production runtime crash.
+    - `src/components/CharacterView.jsx`: Updated imports and added `aria-label` for accessibility.
+    - `index.html`: Cleaned up diagnostic error handler.
+- **Revised Rationale**:
+    - **Dependency Swap**: Fixed `TypeError: (0, qu.useRive) is not a function` by providing the correct React hooks library.
+    - **Accessibility**: Added screen-reader support to the primary animation area.
 
 ---
 
