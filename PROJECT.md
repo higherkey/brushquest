@@ -15,6 +15,15 @@ The application is a Single Page Application (SPA) designed to minimize server r
 
 ---
 
+## 🎨 Design & UX Mandates
+
+- **Zero-Scroll Visibility**: The core brushing loop must be 100% visible on a single screen without scrolling, across all common mobile viewports.
+- **Large Touch Targets**: Minimum interactive area of 44x44px.
+- **High Resilience**: Session state must be recoverable to minimize disruption for sensitive users.
+- **Joyful Feedback**: Visual and audio feedback must be positive, encouraging, and clear.
+
+---
+
 ## 1) Planned Work (MVP Phase)
 
 ### TODO List
