@@ -28,36 +28,35 @@ export const useTimer = ({
     const delta = (now - startTimeRef.current) / 1000;
 
     if (state === TIMER_STATES.RUNNING) {
-      const newElapsed = lastElapsedTimeRef.current + delta;
-      
-      // Check if we reached end of quadrant (but not final quadrant)
-      const targetElapsedTime = currentQuadrant * quadrantDuration;
-      
-      if (newElapsed >= targetElapsedTime && currentQuadrant < 4) {
-        setElapsedTime(targetElapsedTime);
-        lastElapsedTimeRef.current = targetElapsedTime;
-        setState(TIMER_STATES.PAUSE_TRANSITION);
-        setTransitionTime(0);
-        lastTransitionTimeRef.current = 0;
-        startTimeRef.current = now;
-      } else if (newElapsed >= TOTAL_TIME) {
-        setElapsedTime(TOTAL_TIME);
-        setState(TIMER_STATES.COMPLETE);
-      } else {
-        setElapsedTime(newElapsed);
-      }
+      setElapsedTime(prev => {
+        const newElapsed = lastElapsedTimeRef.current + delta;
+        const targetElapsedTime = currentQuadrant * quadrantDuration;
+        
+        if (newElapsed >= targetElapsedTime && currentQuadrant < 4) {
+          lastElapsedTimeRef.current = targetElapsedTime;
+          setState(TIMER_STATES.PAUSE_TRANSITION);
+          setTransitionTime(0);
+          lastTransitionTimeRef.current = 0;
+          startTimeRef.current = Date.now();
+          return targetElapsedTime;
+        } else if (newElapsed >= TOTAL_TIME) {
+          setState(TIMER_STATES.COMPLETE);
+          return TOTAL_TIME;
+        }
+        return newElapsed;
+      });
     } else if (state === TIMER_STATES.PAUSE_TRANSITION) {
-      const newTransition = lastTransitionTimeRef.current + delta;
-      
-      if (newTransition >= transitionDuration) {
-        setTransitionTime(0);
-        lastTransitionTimeRef.current = 0;
-        setCurrentQuadrant(prev => prev + 1);
-        setState(TIMER_STATES.RUNNING);
-        startTimeRef.current = now;
-      } else {
-        setTransitionTime(newTransition);
-      }
+      setTransitionTime(prev => {
+        const newTransition = lastTransitionTimeRef.current + delta;
+        if (newTransition >= transitionDuration) {
+          lastTransitionTimeRef.current = 0;
+          setCurrentQuadrant(q => q + 1);
+          setState(TIMER_STATES.RUNNING);
+          startTimeRef.current = Date.now();
+          return 0;
+        }
+        return newTransition;
+      });
     }
 
     requestRef.current = requestAnimationFrame(animate);
@@ -65,10 +64,11 @@ export const useTimer = ({
 
   const start = () => {
     if (state === TIMER_STATES.IDLE || state === TIMER_STATES.USER_PAUSED) {
+      const wasInTransition = elapsedTime % quadrantDuration === 0 && elapsedTime > 0 && elapsedTime < TOTAL_TIME;
       startTimeRef.current = Date.now();
       lastElapsedTimeRef.current = elapsedTime;
       lastTransitionTimeRef.current = transitionTime;
-      setState(state === TIMER_STATES.PAUSE_TRANSITION ? TIMER_STATES.PAUSE_TRANSITION : TIMER_STATES.RUNNING);
+      setState(wasInTransition ? TIMER_STATES.PAUSE_TRANSITION : TIMER_STATES.RUNNING);
     }
   };
 

@@ -1,6 +1,8 @@
 # 🪥 BrushQuest
 
-A premium, web-based toothbrushing assistant for kids. Built for performance, visibility, and fun.
+> A premium, web-based toothbrushing assistant for kids. Built for performance, visibility, and fun.
+
+[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen?style=flat-square)](https://higherkey.github.io/brushquest/)
 
 ## ✨ Features
 - **Precision Timing**: Drift-free countdown logic using the system clock.

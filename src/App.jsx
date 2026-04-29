@@ -81,32 +81,24 @@ function App() {
         </div>
 
         <div className="timer-display">
-          <AnimatePresence mode='wait'>
-            <motion.span
-              key={Math.floor(elapsedTime)}
-              initial={{ y: 10, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: -10, opacity: 0 }}
-              transition={{ duration: 0.1 }}
-            >
-              {formatTime(elapsedTime)}
-            </motion.span>
-          </AnimatePresence>
+          <span className="timer-text">
+            {formatTime(elapsedTime)}
+          </span>
         </div>
 
         <div className="controls">
-          {state === TIMER_STATES.RUNNING || state === TIMER_STATES.PAUSE_TRANSITION ? (
-            <button className="btn-secondary" onClick={pause}>
-              <Pause size={24} /> Pause
-            </button>
-          ) : (
-            <button className="btn-primary" onClick={start} disabled={state === TIMER_STATES.COMPLETE}>
-              <Play size={24} /> {state === TIMER_STATES.IDLE ? 'Start Brushing' : 'Resume'}
-            </button>
-          )}
+          <button 
+            className={state === TIMER_STATES.RUNNING || state === TIMER_STATES.PAUSE_TRANSITION ? "btn-secondary" : "btn-primary"} 
+            onClick={state === TIMER_STATES.RUNNING || state === TIMER_STATES.PAUSE_TRANSITION ? pause : start}
+            disabled={state === TIMER_STATES.COMPLETE}
+          >
+            {state === TIMER_STATES.RUNNING || state === TIMER_STATES.PAUSE_TRANSITION ? <Pause size={28} /> : <Play size={28} />}
+            <span>{state === TIMER_STATES.IDLE ? 'Start' : (state === TIMER_STATES.RUNNING || state === TIMER_STATES.PAUSE_TRANSITION ? 'Pause' : 'Resume')}</span>
+          </button>
           
           <button className="btn-secondary" onClick={reset}>
-            <RotateCcw size={24} /> Reset
+            <RotateCcw size={28} />
+            <span>Reset</span>
           </button>
         </div>
       </div>
