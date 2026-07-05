@@ -1,6 +1,6 @@
-# **BrushQuest Project Plan and Technical Specifications**
+# **TimerQuest Project Plan and Technical Specifications**
 
-BrushQuest is a web-based toothbrushing assistant designed to improve oral hygiene habits in children through structured timing, interactive gamification, and technique coaching. The application is structured to be lightweight, responsive, and capable of offline use via Progressive Web App (PWA) standards.
+TimerQuest is a web-based timer assistant designed to improve task focus and hygiene habits in children through structured timing, interactive gamification, and task-specific coaching. The application is structured to be lightweight, responsive, and capable of offline use via Progressive Web App (PWA) standards.
 
 ## **Project Phase 1: Proof of Concept (POC)**
 

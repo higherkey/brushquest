@@ -3,96 +3,128 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 export const TIMER_STATES = {
   IDLE: 'IDLE',
   RUNNING: 'RUNNING',
-  PAUSE_TRANSITION: 'PAUSE_TRANSITION',
+  PAUSE_TRANSITION: 'PAUSE_TRANSITION', // Transition break state
   USER_PAUSED: 'USER_PAUSED',
   COMPLETE: 'COMPLETE',
 };
 
 export const useTimer = ({ 
-  quadrantDuration = 30, 
-  transitionDuration = 5 
+  initialTotalSecs = 120, 
+  initialIntervalSecs = 30,
+  isBrushQuest = true
 } = {}) => {
-  const TOTAL_TIME = quadrantDuration * 4;
   const [state, setState] = useState(TIMER_STATES.IDLE);
-  const [elapsedTime, setElapsedTime] = useState(0); 
-  const [transitionTime, setTransitionTime] = useState(0); 
+  const [totalSecs, setTotalSecsState] = useState(initialTotalSecs);
+  const [intervalSecs, setIntervalSecsState] = useState(initialIntervalSecs);
+
+  const [timeRemaining, setTimeRemaining] = useState(initialTotalSecs);
+  const [intervalRemaining, setIntervalRemaining] = useState(initialIntervalSecs);
   const [currentQuadrant, setCurrentQuadrant] = useState(1);
-  
+
   const requestRef = useRef();
   const startTimeRef = useRef();
-  const lastElapsedTimeRef = useRef(0);
-  const lastTransitionTimeRef = useRef(0);
+  
+  // Accumulated time indicators
+  const elapsedBeforeCurrentRun = useRef(0);
+  const intervalElapsedBeforeCurrentRun = useRef(0);
+
+  // Synchronous config modifiers to avoid cascading effect renders
+  const setTotalSecs = useCallback((secs) => {
+    setTotalSecsState(secs);
+    setTimeRemaining(secs);
+    elapsedBeforeCurrentRun.current = 0;
+  }, []);
+
+  const setIntervalSecs = useCallback((secs) => {
+    setIntervalSecsState(secs);
+    setIntervalRemaining(secs);
+    intervalElapsedBeforeCurrentRun.current = 0;
+  }, []);
 
   const tick = useCallback(function animate() {
+    if (state !== TIMER_STATES.RUNNING) return;
+
     const now = Date.now();
     const delta = (now - startTimeRef.current) / 1000;
 
-    if (state === TIMER_STATES.RUNNING) {
-      setElapsedTime(prev => {
-        const newElapsed = lastElapsedTimeRef.current + delta;
-        const targetElapsedTime = currentQuadrant * quadrantDuration;
-        
-        if (newElapsed >= targetElapsedTime && currentQuadrant < 4) {
-          lastElapsedTimeRef.current = targetElapsedTime;
-          setState(TIMER_STATES.PAUSE_TRANSITION);
-          setTransitionTime(0);
-          lastTransitionTimeRef.current = 0;
-          startTimeRef.current = Date.now();
-          return targetElapsedTime;
-        } else if (newElapsed >= TOTAL_TIME) {
-          setState(TIMER_STATES.COMPLETE);
-          return TOTAL_TIME;
-        }
-        return newElapsed;
-      });
-    } else if (state === TIMER_STATES.PAUSE_TRANSITION) {
-      setTransitionTime(prev => {
-        const newTransition = lastTransitionTimeRef.current + delta;
-        if (newTransition >= transitionDuration) {
-          lastTransitionTimeRef.current = 0;
-          setCurrentQuadrant(q => q + 1);
-          setState(TIMER_STATES.RUNNING);
-          startTimeRef.current = Date.now();
-          return 0;
-        }
-        return newTransition;
-      });
+    const totalElapsed = elapsedBeforeCurrentRun.current + delta;
+    const intervalElapsed = intervalElapsedBeforeCurrentRun.current + delta;
+
+    const remaining = Math.max(0, totalSecs - totalElapsed);
+    const intRemaining = Math.max(0, intervalSecs - intervalElapsed);
+
+    if (remaining <= 0) {
+      setState(TIMER_STATES.COMPLETE);
+      setTimeRemaining(0);
+      setIntervalRemaining(0);
+      return;
+    }
+
+    if (intRemaining <= 0) {
+      setState(TIMER_STATES.PAUSE_TRANSITION);
+      setTimeRemaining(remaining);
+      setIntervalRemaining(0);
+      
+      elapsedBeforeCurrentRun.current = totalElapsed;
+      intervalElapsedBeforeCurrentRun.current = 0;
+      return;
+    }
+
+    setTimeRemaining(remaining);
+    setIntervalRemaining(intRemaining);
+
+    if (isBrushQuest) {
+      const quad = Math.min(4, Math.floor(totalElapsed / 30) + 1);
+      setCurrentQuadrant(quad);
     }
 
     requestRef.current = requestAnimationFrame(animate);
-  }, [state, currentQuadrant, TOTAL_TIME, quadrantDuration, transitionDuration]);
+  }, [state, totalSecs, intervalSecs, isBrushQuest]);
 
   const start = () => {
-    if (state === TIMER_STATES.IDLE || state === TIMER_STATES.USER_PAUSED) {
-      const wasInTransition = elapsedTime % quadrantDuration === 0 && elapsedTime > 0 && elapsedTime < TOTAL_TIME;
+    if (state === TIMER_STATES.IDLE) {
       startTimeRef.current = Date.now();
-      lastElapsedTimeRef.current = elapsedTime;
-      lastTransitionTimeRef.current = transitionTime;
-      setState(wasInTransition ? TIMER_STATES.PAUSE_TRANSITION : TIMER_STATES.RUNNING);
+      elapsedBeforeCurrentRun.current = 0;
+      intervalElapsedBeforeCurrentRun.current = 0;
+      setState(TIMER_STATES.RUNNING);
     }
   };
 
   const pause = () => {
-    if (state === TIMER_STATES.RUNNING || state === TIMER_STATES.PAUSE_TRANSITION) {
+    if (state === TIMER_STATES.RUNNING) {
       cancelAnimationFrame(requestRef.current);
-      lastElapsedTimeRef.current = elapsedTime;
-      lastTransitionTimeRef.current = transitionTime;
+      const now = Date.now();
+      const delta = (now - startTimeRef.current) / 1000;
+      
+      elapsedBeforeCurrentRun.current += delta;
+      intervalElapsedBeforeCurrentRun.current += delta;
+      
       setState(TIMER_STATES.USER_PAUSED);
+    }
+  };
+
+  const resume = () => {
+    if (state === TIMER_STATES.USER_PAUSED || state === TIMER_STATES.PAUSE_TRANSITION) {
+      startTimeRef.current = Date.now();
+      if (state === TIMER_STATES.PAUSE_TRANSITION) {
+        intervalElapsedBeforeCurrentRun.current = 0;
+      }
+      setState(TIMER_STATES.RUNNING);
     }
   };
 
   const reset = () => {
     cancelAnimationFrame(requestRef.current);
     setState(TIMER_STATES.IDLE);
-    setElapsedTime(0);
-    setTransitionTime(0);
+    setTimeRemaining(totalSecs);
+    setIntervalRemaining(intervalSecs);
     setCurrentQuadrant(1);
-    lastElapsedTimeRef.current = 0;
-    lastTransitionTimeRef.current = 0;
+    elapsedBeforeCurrentRun.current = 0;
+    intervalElapsedBeforeCurrentRun.current = 0;
   };
 
   useEffect(() => {
-    if (state === TIMER_STATES.RUNNING || state === TIMER_STATES.PAUSE_TRANSITION) {
+    if (state === TIMER_STATES.RUNNING) {
       requestRef.current = requestAnimationFrame(tick);
     } else {
       cancelAnimationFrame(requestRef.current);
@@ -100,16 +132,21 @@ export const useTimer = ({
     return () => cancelAnimationFrame(requestRef.current);
   }, [state, tick]);
 
+  const totalProgress = ((totalSecs - timeRemaining) / totalSecs) * 100;
+
   return {
     state,
-    elapsedTime,
-    transitionTime,
+    timeRemaining,
+    intervalRemaining,
     currentQuadrant,
+    totalSecs,
+    intervalSecs,
+    setTotalSecs,
+    setIntervalSecs,
     start,
     pause,
+    resume,
     reset,
-    totalProgress: (elapsedTime / TOTAL_TIME) * 100,
-    quadrantProgress: ((elapsedTime % quadrantDuration) / quadrantDuration) * 100,
-    transitionProgress: (transitionTime / transitionDuration) * 100
+    totalProgress,
   };
 };

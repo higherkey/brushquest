@@ -1,6 +1,6 @@
-# BrushQuest - Architecture & Work Trace
+# TimerQuest - Architecture & Work Trace
 
-BrushQuest is a high-performance, web-based toothbrushing assistant designed for children. It combines precision timing logic with premium animations and synthesized audio to create an engaging and effective hygiene habit.
+TimerQuest is a high-performance, web-based task companion designed for children. It combines precision timing logic with premium animations and local audio to create an engaging and effective routine habit.
 
 ## 🏛️ Architecture Overview
 
@@ -11,7 +11,7 @@ The application is a Single Page Application (SPA) designed to minimize server r
 - **PWA Configuration**: Service Worker (Workbox) for asset caching and manifest.json for "Add to Home Screen".
 - **State Management**: React Hooks (`useTimer`, `useAudio`) to handle global settings and timer status without heavy external dependencies.
 - **Timing Engine**: To prevent "timer drift" when the browser backgrounds tabs, the engine compares cumulative elapsed time against the system clock rather than relying on intervals.
-- **Animations & Audio**: Framer Motion for UI transitions, Rive for interactive characters. Zero-latency synthesized audio (Web Audio API) avoids large asset payloads.
+- **Animations & Audio**: Framer Motion for UI transitions, pure HTML5 SVG animations for interactive characters. Zero-latency local audio files (from OpenGameArt.org) avoid synthetic chimes.
 
 ---
 

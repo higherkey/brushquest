@@ -5,15 +5,33 @@
     - [x] Diagnose and fix "progress bar only updates on pause" issue.
     - [x] Implement smooth, frame-accurate progress updates.
     - [x] Enhance UI buttons and text for better accessibility and "joyful" feel.
-    - [x] Verify fix with local build.
+    - [x] Rebrand project name to TimerQuest (metadata, files, configurations).
+    - [x] Write script to download CC0 animal and UI sound effects from OpenGameArt.org.
+    - [x] Integrate companion characters (Benni, Pip, Kiki, Bibi) with SVG wiggles and blink animations.
+    - [x] Implement preset quest selections with customizable durations and intervals.
+    - [x] Implement interactive tickle handlers playing local audio files.
+    - [x] Build break overlay modal with randomized kid-friendly mini-missions.
+    - [x] Style everything using pure Vanilla CSS.
+    - [x] Verify fix with local build and lint.
 - **File List**:
     - `src/hooks/useTimer.js` (Modify)
+    - `src/hooks/useAudio.js` (Modify)
+    - `src/hooks/usePersistence.js` (Modify)
     - `src/index.css` (Modify)
     - `src/App.jsx` (Modify)
+    - `src/components/CompanionView.jsx` (New)
+    - `src/components/CompanionAssets.jsx` (New)
+    - `src/components/QuestSelector.jsx` (New)
+    - `src/components/QuestConfig.js` (New)
+    - `src/components/TimerDisplay.jsx` (New)
+    - `src/components/BreakModal.jsx` (New)
+    - `src/components/Controls.jsx` (New)
+    - `src/components/CoachingOverlay.jsx` (Modify)
+    - `scripts/download_sounds.ps1` (New)
 - **Rationale**:
-    - **useTimer.js**: Likely a closure or state update issue preventing smooth progress reporting.
-    - **index.css**: Improve visual feedback and remove jitter/transitions that conflict with frame-rate updates.
-    - **App.jsx**: Optimize component hierarchy for performance.
+    - **useTimer.js**: Support custom adventure presets with pauses, keeping timing drift-free.
+    - **index.css**: Implement styling system using pure Vanilla CSS.
+    - **App.jsx**: Orchestrate components and run a canvas confetti particle celebration.
 
 ---
 
@@ -24,12 +42,14 @@
 
 ## 3) Completed Work
 - **Summary**:
-    - **Logic**: Refactored `useTimer.js` to use functional state updates and accurate `Date.now()` deltas. Fixed the closure/stale state issue causing jerky progress updates.
-    - **Performance**: Removed CSS transitions from the progress bar that were conflicting with 60fps React state updates.
-    - **Visuals**: Enhanced buttons with playful hover/active states, rounded corners, and larger icons (28px). Standardized the control layout.
+    - **Logic**: Refactored `useTimer.js` for drift-free presets, `useAudio.js` to play local sounds, and `usePersistence.js` to use `timerquest_*` namespace.
+    - **Components**: Created custom modular views for selector, viewport, radial display, controls, and break modal.
+    - **Sound**: Downloaded BFXR and OpenGameArt clips. Handled browser autoplay rules using unified click listeners.
+    - **Styling**: Removed tailwind references and wrote comprehensive CSS animations and keyframes.
+    - **Traceability**: Documented and verified changes using `eslint` and production builds.
 - **Revised Rationale**:
-    - **Smoothness**: High-frequency timer updates must be frame-accurate; removing CSS lag ensures the UI feels responsive.
-    - **Childlike Joy**: Larger, bouncy buttons and clearer icons make the app more intuitive and delight-focused for child users.
+    - **Aesthetics & Performance**: Pure CSS provides smooth 60fps wiggles and transitions without framework overhead.
+    - **Childhood Engagement**: Cheering mini-avatars, randomized breaks, and confetti reward positive routines.
 
 ---
 

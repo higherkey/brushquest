@@ -1,53 +1,64 @@
-import { useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 
-export const useAudio = (defaultVolume = 0.1) => {
-  const playSound = useCallback((type, volumeOverride) => {
-    const volume = volumeOverride === undefined ? defaultVolume : volumeOverride;
-    const ctx = new (globalThis.AudioContext || globalThis.webkitAudioContext)();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-
-    const now = ctx.currentTime;
-
-    const rampVolume = (v, time) => {
-      gain.gain.setValueAtTime(v, now);
-      gain.gain.exponentialRampToValueAtTime(0.01, now + time);
-    };
-
-    switch (type) {
-      case 'start':
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(440, now);
-        osc.frequency.exponentialRampToValueAtTime(880, now + 0.1);
-        rampVolume(volume, 0.2);
-        osc.start(now);
-        osc.stop(now + 0.2);
-        break;
-      case 'switch':
-        osc.type = 'square';
-        osc.frequency.setValueAtTime(660, now);
-        osc.frequency.setValueAtTime(440, now + 0.1);
-        rampVolume(volume * 0.5, 0.3);
-        osc.start(now);
-        osc.stop(now + 0.3);
-        break;
-      case 'complete':
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(523.25, now); // C5
-        osc.frequency.setValueAtTime(659.25, now + 0.1); // E5
-        osc.frequency.setValueAtTime(783.99, now + 0.2); // G5
-        osc.frequency.setValueAtTime(1046.5, now + 0.3); // C6
-        rampVolume(volume, 0.6);
-        osc.start(now);
-        osc.stop(now + 0.6);
-        break;
-      default:
-        break;
-    }
-  }, [defaultVolume]);
-
-  return { playSound };
+const SOUND_FILES = {
+  bear: 'bear.mp3',
+  panda: 'panda.wav',
+  kitty: 'kitty.wav',
+  bunny: 'bunny.wav',
+  break: 'break.wav',
+  tada: 'tada.wav',
+  click: 'click.wav',
+  tick: 'tick.wav',
+  
+  // Original events mapped for compatibility
+  start: 'click.wav',
+  switch: 'break.wav',
+  complete: 'tada.wav'
 };
+
+export const useAudio = (volumeSetting = 0.5, soundsEnabled = true) => {
+  const audioUnlockedRef = useRef(false);
+
+  const unlockAudio = useCallback(() => {
+    if (audioUnlockedRef.current) return;
+    try {
+      const silentAudio = new Audio('data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA==');
+      silentAudio.play().then(() => {
+        audioUnlockedRef.current = true;
+      }).catch((e) => {
+        console.log("Audio unlock deferred to next click event:", e);
+      });
+    } catch (e) {
+      console.warn("Failed to unlock audio context:", e);
+    }
+  }, []);
+
+  const playSound = useCallback((type, volumeOverride) => {
+    if (!soundsEnabled) return;
+    unlockAudio();
+
+    const fileName = SOUND_FILES[type];
+    if (!fileName) {
+      console.warn("Unknown sound type requested:", type);
+      return;
+    }
+
+    const baseUrl = import.meta.env.BASE_URL || '/';
+    const cleanBaseUrl = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
+    const soundUrl = `${cleanBaseUrl}sounds/${fileName}`;
+
+    try {
+      const volume = volumeOverride !== undefined ? volumeOverride : volumeSetting;
+      const audio = new Audio(soundUrl);
+      audio.volume = volume;
+      audio.play().catch(e => {
+        console.warn("Audio playback blocked or interrupted:", e);
+      });
+    } catch (err) {
+      console.error("Audio engine playback error:", err);
+    }
+  }, [volumeSetting, soundsEnabled, unlockAudio]);
+
+  return { playSound, unlockAudio };
+};
+

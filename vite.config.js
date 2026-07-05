@@ -4,16 +4,16 @@ import { VitePWA } from 'vite-plugin-pwa';
 
 // https://vite.dev/config/
 export default defineConfig(({ command }) => ({
-  base: command === 'serve' ? '/' : '/brushquest/',
+  base: command === 'serve' ? '/' : '/timerquest/',
   plugins: [
     react(),
     VitePWA({
       registerType: 'autoUpdate',
       manifest: {
-        name: 'BrushQuest',
-        short_name: 'BrushQuest',
-        description: 'Kids toothbrushing assistant',
-        theme_color: '#0f172a',
+        name: 'TimerQuest',
+        short_name: 'TimerQuest',
+        description: 'Kids companion timer adventure',
+        theme_color: '#059669',
         icons: [
           {
             src: 'pwa-192x192.png',

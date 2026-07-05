@@ -1,9 +1,9 @@
 import { useState, useCallback } from 'react';
 
 const STORAGE_KEYS = {
-  SESSION_COUNT: 'brushquest_session_count',
-  LAST_SESSION: 'brushquest_last_session',
-  SETTINGS: 'brushquest_settings'
+  SESSION_COUNT: 'timerquest_session_count',
+  LAST_SESSION: 'timerquest_last_session',
+  SETTINGS: 'timerquest_settings'
 };
 
 export const usePersistence = () => {
@@ -15,7 +15,8 @@ export const usePersistence = () => {
     const saved = localStorage.getItem(STORAGE_KEYS.SETTINGS);
     return saved ? JSON.parse(saved) : {
       quadrantDuration: 30,
-      volume: 0.1
+      volume: 0.5,
+      soundsEnabled: true
     };
   });
 
@@ -43,3 +44,4 @@ export const usePersistence = () => {
     updateSettings
   };
 };
+

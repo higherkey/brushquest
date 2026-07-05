@@ -1,8 +1,8 @@
 {
-  "name": "brushquest",
+  "name": "timerquest",
   "private": true,
   "version": "0.1.0",
-  "description": "An interactive, web-based toothbrushing assistant for kids.",
+  "description": "An interactive, web-based companion timer for kids.",
   "author": "Antigravity AI",
   "type": "module",
   "scripts": {
