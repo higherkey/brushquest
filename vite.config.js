@@ -4,7 +4,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 
 // https://vite.dev/config/
 export default defineConfig(({ command }) => ({
-  base: command === 'serve' ? '/' : '/timerquest/',
+  base: command === 'serve' ? '/' : '/brushquest/',
   plugins: [
     react(),
     VitePWA({
