@@ -42,10 +42,12 @@
 
 ## 3) Completed Work
 - **Summary**:
-    - **Logic**: Refactored `useTimer.js` for drift-free presets, `useAudio.js` to play local sounds, and `usePersistence.js` to use `timerquest_*` namespace.
-    - **Components**: Created custom modular views for selector, viewport, radial display, controls, and break modal.
+    - **Logic**: Refactored `useTimer.js` for drift-free presets, `useAudio.js` to play local sounds, and `usePersistence.js` to use `timerquest_*` namespace and support resetting history.
+    - **Procedural Audio**: Added synthesized Web Audio API sound effects for Pause (downward sweep), Resume (upward sweep), and Complete (C-major arpeggio chime).
+    - **Components**: Created custom modular views for selector, viewport, radial display, controls, and break modal. Built a slide-out settings drawer with volume slider, sound toggle, reset trigger, and version display.
     - **Sound**: Downloaded BFXR and OpenGameArt clips. Handled browser autoplay rules using unified click listeners.
-    - **Styling**: Removed tailwind references and wrote comprehensive CSS animations and keyframes.
+    - **Styling**: Removed tailwind references and wrote comprehensive CSS animations and keyframes. Added mobile-responsive overrides (reducing padding, sizes, and viewport height constraints) and drawer styles.
+    - **Build & CI/CD**: Exposed `__APP_VERSION__` global to ES Modules, and configured GitHub Actions to trigger deploys to GitHub Pages only on semver release tags (`v*`).
     - **Traceability**: Documented and verified changes using `eslint` and production builds.
 - **Revised Rationale**:
     - **Aesthetics & Performance**: Pure CSS provides smooth 60fps wiggles and transitions without framework overhead.

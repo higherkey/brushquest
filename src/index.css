@@ -820,3 +820,396 @@ body {
 .scale-in {
   animation: scale-in 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
+
+/* --- Menu Trigger Button --- */
+.menu-trigger-btn {
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid var(--emerald-200);
+  color: var(--emerald-700);
+  padding: 0.6rem;
+  border-radius: 50%;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.2s, background-color 0.2s;
+}
+
+.menu-trigger-btn:hover {
+  border-color: var(--emerald-500);
+  background: white;
+}
+
+.menu-trigger-btn:active {
+  transform: scale(0.92);
+}
+
+/* --- Side Menu Drawer --- */
+.side-menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 78, 59, 0.4);
+  backdrop-filter: blur(4px);
+  z-index: 900;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.side-menu-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.side-menu-drawer {
+  position: fixed;
+  top: 0;
+  right: -320px;
+  width: 300px;
+  height: 100vh;
+  background: white;
+  z-index: 950;
+  box-shadow: -8px 0 30px rgba(6, 78, 59, 0.15);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.5rem;
+  transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  border-left: 4px solid var(--emerald-200);
+}
+
+.side-menu-drawer.open {
+  right: 0;
+}
+
+.menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px dashed var(--emerald-100);
+  padding-bottom: 1rem;
+}
+
+.menu-title-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.menu-title-emoji {
+  font-size: 1.4rem;
+}
+
+.menu-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--emerald-800);
+}
+
+.menu-close-btn {
+  background: transparent;
+  border: none;
+  color: var(--slate-600);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem;
+  border-radius: 50%;
+  transition: background-color 0.2s, transform 0.15s;
+}
+
+.menu-close-btn:hover {
+  background: var(--emerald-50);
+  color: var(--emerald-700);
+}
+
+.menu-close-btn:active {
+  transform: scale(0.9);
+}
+
+.menu-content {
+  flex: 1;
+  padding: 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  overflow-y: auto;
+}
+
+.settings-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.settings-section-title {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--emerald-600);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.settings-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--bg-emerald-50);
+  padding: 0.75rem 1rem;
+  border-radius: 1rem;
+  border: 1px solid var(--emerald-100);
+}
+
+.settings-item.vertical {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.6rem;
+  background: var(--bg-emerald-50);
+  padding: 0.75rem 1rem;
+  border-radius: 1rem;
+  border: 1px solid var(--emerald-100);
+}
+
+.settings-label-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--emerald-800);
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.settings-label {
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--emerald-800);
+}
+
+.settings-toggle-btn {
+  background: var(--rose-400);
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.8rem;
+  font-family: var(--font-family);
+  font-weight: 700;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: var(--shadow-sm);
+}
+
+.settings-toggle-btn.active {
+  background: var(--emerald-500);
+}
+
+.volume-slider {
+  width: 100%;
+  accent-color: var(--emerald-500);
+  height: 6px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.volume-slider:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.stats-display {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--slate-700);
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.reset-history-btn {
+  background: var(--rose-600);
+  color: white;
+  border: none;
+  font-family: var(--font-family);
+  font-weight: 700;
+  font-size: 0.8rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.8rem;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.15s;
+  align-self: flex-start;
+  box-shadow: var(--shadow-sm);
+}
+
+.reset-history-btn:hover {
+  background: var(--rose-700);
+}
+
+.reset-history-btn:active {
+  transform: scale(0.96);
+}
+
+.menu-footer {
+  border-top: 2px dashed var(--emerald-100);
+  padding-top: 1rem;
+  text-align: center;
+}
+
+.version-txt {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--emerald-700);
+}
+
+.credits-txt {
+  font-size: 0.65rem;
+  color: var(--slate-600);
+  margin-top: 0.2rem;
+  font-weight: 600;
+}
+
+/* --- Mobile View Overrides --- */
+@media (max-width: 480px) {
+  .timerquest-root {
+    padding: 0.5rem 0.5rem;
+  }
+
+  .timerquest-header {
+    margin-bottom: 0.2rem;
+  }
+
+  .logo-badge {
+    padding: 0.4rem;
+    border-radius: 0.8rem;
+  }
+
+  .logo-title {
+    font-size: 1.3rem;
+  }
+
+  .logo-subtitle {
+    font-size: 0.7rem;
+  }
+
+  .timerquest-main-card {
+    padding: 1rem;
+    gap: 0.8rem;
+    margin: 0.2rem 0;
+    border-radius: 1.6rem;
+  }
+
+  .companion-tabs-header {
+    margin-bottom: 0.2rem;
+  }
+
+  .companion-grid {
+    padding: 0.2rem;
+    border-radius: 1.2rem;
+  }
+
+  .tab-btn {
+    padding: 0.4rem 0.2rem;
+    border-radius: 0.9rem;
+  }
+
+  .tab-emoji {
+    font-size: 1.25rem;
+  }
+
+  .tab-name {
+    font-size: 0.65rem;
+  }
+
+  .companion-viewport {
+    min-height: 140px;
+    padding: 1rem 0.5rem;
+    border-radius: 1.4rem;
+  }
+
+  .speech-bubble {
+    font-size: 0.75rem;
+    padding: 0.35rem 0.75rem;
+    top: 5px;
+  }
+
+  .character-container {
+    width: 85px;
+    height: 85px;
+    margin-top: 1.4rem;
+  }
+
+  .tickle-prompt {
+    font-size: 0.65rem;
+    margin-top: 0.2rem;
+  }
+
+  .presets-grid {
+    gap: 0.4rem;
+  }
+
+  .preset-btn {
+    padding: 0.5rem 0.4rem;
+    font-size: 0.75rem;
+    border-radius: 1rem;
+  }
+
+  .timer-circle-container {
+    width: 120px;
+    height: 120px;
+  }
+
+  .timer-digits {
+    font-size: 2.1rem;
+  }
+
+  .interval-countdown {
+    font-size: 0.65rem;
+    margin-top: 0.15rem;
+  }
+
+  .controls-panel button {
+    gap: 0.35rem;
+  }
+
+  .start-btn {
+    font-size: 0.95rem;
+    padding: 0.75rem 1rem;
+    border-radius: 1.1rem;
+  }
+
+  .pause-btn, .reset-btn {
+    font-size: 0.85rem;
+    padding: 0.7rem;
+    border-radius: 1rem;
+  }
+
+  .history-badge {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.7rem;
+  }
+
+  .timerquest-footer {
+    margin-top: 0.4rem;
+    font-size: 0.6rem;
+  }
+  
+  .coaching-overlay-container {
+    padding: 0.5rem;
+    border-radius: 1rem;
+  }
+  
+  .coaching-title {
+    font-size: 0.75rem;
+    margin-bottom: 0.2rem;
+  }
+  
+  .teeth-diagram {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .coaching-instruction {
+    font-size: 0.7rem;
+  }
+}

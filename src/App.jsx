@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useTimer, TIMER_STATES } from './hooks/useTimer';
 import { useAudio } from './hooks/useAudio';
 import { usePersistence } from './hooks/usePersistence';
-import { Calendar } from 'lucide-react';
+import { Calendar, Menu, X, Volume2 } from 'lucide-react';
 import CompanionView from './components/CompanionView';
 import { DIALOGUES } from './components/CompanionAssets';
 import QuestSelector from './components/QuestSelector';
@@ -21,12 +21,13 @@ const TICKLE_TEXTS = {
 };
 
 function App() {
-  const { sessionCount, settings, incrementSession, updateSettings } = usePersistence();
+  const { sessionCount, settings, incrementSession, updateSettings, resetHistory } = usePersistence();
   const { playSound, unlockAudio } = useAudio(settings.volume, settings.soundsEnabled);
   
   const [companion, setCompanion] = useState('bear');
   const [activeQuest, setActiveQuest] = useState('brush');
   const [tickleText, setTickleText] = useState('');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const tickleTimeoutRef = useRef(null);
 
   const questConfig = QUESTS[activeQuest];
@@ -193,10 +194,102 @@ function App() {
     }
   };
 
+  const APP_VERSION = typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ : '0.1.0';
+
   return (
     <div className="timerquest-root">
       {/* Confetti Overlay */}
       <canvas ref={canvasRef} className="confetti-canvas" />
+
+      {/* Side Menu Drawer Settings */}
+      <div 
+        className={`side-menu-overlay ${isMenuOpen ? 'open' : ''}`} 
+        onClick={() => setIsMenuOpen(false)} 
+      />
+      <div className={`side-menu-drawer ${isMenuOpen ? 'open' : ''}`}>
+        <div className="menu-header">
+          <div className="menu-title-group">
+            <span className="menu-title-emoji">⚙️</span>
+            <h2 className="menu-title">Settings</h2>
+          </div>
+          <button 
+            className="menu-close-btn" 
+            onClick={() => {
+              playSound('click');
+              setIsMenuOpen(false);
+            }}
+            aria-label="Close settings menu"
+          >
+            <X size={20} />
+          </button>
+        </div>
+
+        <div className="menu-content">
+          <div className="settings-section">
+            <h3 className="settings-section-title">Sound Effects</h3>
+            
+            <div className="settings-item">
+              <span className="settings-label">Enable Audio</span>
+              <button 
+                className={`settings-toggle-btn ${settings.soundsEnabled ? 'active' : ''}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  const nextState = !settings.soundsEnabled;
+                  updateSettings({ soundsEnabled: nextState });
+                  if (nextState) {
+                    playSound('click');
+                  }
+                }}
+              >
+                {settings.soundsEnabled ? '🔊 On' : '🔇 Muted'}
+              </button>
+            </div>
+
+            <div className="settings-item vertical">
+              <div className="settings-label-row">
+                <Volume2 size={16} />
+                <span className="settings-label">Volume: {Math.round(settings.volume * 100)}%</span>
+              </div>
+              <input 
+                type="range"
+                min="0"
+                max="1"
+                step="0.05"
+                value={settings.volume}
+                onChange={(e) => updateSettings({ volume: parseFloat(e.target.value) })}
+                className="volume-slider"
+                disabled={!settings.soundsEnabled}
+              />
+            </div>
+          </div>
+
+          <div className="settings-section">
+            <h3 className="settings-section-title">Adventure Log</h3>
+            <div className="settings-item vertical">
+              <div className="stats-display">
+                <Calendar size={16} />
+                <span>{sessionCount} Quests Completed</span>
+              </div>
+              <button 
+                className="reset-history-btn" 
+                onClick={() => {
+                  playSound('click');
+                  if (window.confirm("Do you want to reset your completed adventures log back to 0?")) {
+                    resetHistory();
+                  }
+                }}
+              >
+                Reset Adventure Log
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="menu-footer">
+          <div className="version-txt">Version {APP_VERSION}</div>
+          <div className="credits-txt">TimerQuest by Antigravity</div>
+        </div>
+      </div>
 
       {/* Break modal - Conditionally mount to reset active task selections */}
       {timer.state === TIMER_STATES.PAUSE_TRANSITION && (
@@ -204,7 +297,7 @@ function App() {
           isOpen={true}
           companion={companion}
           onResume={() => {
-            playSound('click');
+            playSound('resume');
             timer.resume();
           }}
         />
@@ -222,10 +315,16 @@ function App() {
           </div>
         </div>
 
-        {/* Mute button */}
-        <button className="sound-toggle-btn" onClick={toggleSound}>
-          <span className="sound-icon">{settings.soundsEnabled ? '🔊' : '🔇'}</span>
-          <span className="sound-txt">Sounds {settings.soundsEnabled ? 'On' : 'Off'}</span>
+        {/* Hamburger settings button */}
+        <button 
+          className="menu-trigger-btn" 
+          onClick={() => {
+            playSound('click');
+            setIsMenuOpen(true);
+          }}
+          aria-label="Open settings menu"
+        >
+          <Menu size={20} />
         </button>
       </header>
 
@@ -280,11 +379,11 @@ function App() {
             timer.start();
           }}
           onPause={() => {
-            playSound('click');
+            playSound('pause');
             timer.pause();
           }}
           onResume={() => {
-            playSound('click');
+            playSound('resume');
             timer.resume();
           }}
           onReset={() => {

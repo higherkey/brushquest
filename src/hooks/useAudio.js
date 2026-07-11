@@ -16,6 +16,65 @@ const SOUND_FILES = {
   complete: 'tada.wav'
 };
 
+const playProceduralSound = (type, volume) => {
+  try {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) return;
+    const ctx = new AudioContextClass();
+    const now = ctx.currentTime;
+
+    if (type === 'pause') {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(320, now);
+      osc.frequency.exponentialRampToValueAtTime(140, now + 0.25);
+      
+      gain.gain.setValueAtTime(volume, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+      
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.25);
+    } else if (type === 'resume') {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(160, now);
+      osc.frequency.exponentialRampToValueAtTime(480, now + 0.22);
+      
+      gain.gain.setValueAtTime(volume, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+      
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.25);
+    } else if (type === 'complete' || type === 'tada') {
+      const notes = [261.63, 329.63, 392.00, 523.25, 659.25, 783.99, 1046.50];
+      notes.forEach((freq, idx) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = idx % 2 === 0 ? 'sine' : 'triangle';
+        const noteStart = now + idx * 0.08;
+        const duration = 0.35;
+
+        osc.frequency.setValueAtTime(freq, noteStart);
+        gain.gain.setValueAtTime(volume * 0.8, noteStart);
+        gain.gain.exponentialRampToValueAtTime(0.01, noteStart + duration - 0.05);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(noteStart);
+        osc.stop(noteStart + duration);
+      });
+    }
+  } catch (e) {
+    console.warn("Failed to play procedural sound:", e);
+  }
+};
+
 export const useAudio = (volumeSetting = 0.5, soundsEnabled = true) => {
   const audioUnlockedRef = useRef(false);
 
@@ -37,6 +96,17 @@ export const useAudio = (volumeSetting = 0.5, soundsEnabled = true) => {
     if (!soundsEnabled) return;
     unlockAudio();
 
+    const volume = volumeOverride !== undefined ? volumeOverride : volumeSetting;
+
+    if (type === 'pause' || type === 'resume') {
+      playProceduralSound(type, volume);
+      return;
+    }
+
+    if (type === 'complete' || type === 'tada') {
+      playProceduralSound('complete', volume);
+    }
+
     const fileName = SOUND_FILES[type];
     if (!fileName) {
       console.warn("Unknown sound type requested:", type);
@@ -48,7 +118,6 @@ export const useAudio = (volumeSetting = 0.5, soundsEnabled = true) => {
     const soundUrl = `${cleanBaseUrl}sounds/${fileName}`;
 
     try {
-      const volume = volumeOverride !== undefined ? volumeOverride : volumeSetting;
       const audio = new Audio(soundUrl);
       audio.volume = volume;
       audio.play().catch(e => {

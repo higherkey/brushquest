@@ -37,11 +37,18 @@ export const usePersistence = () => {
     });
   }, []);
 
+  const resetHistory = useCallback(() => {
+    setSessionCount(0);
+    localStorage.setItem(STORAGE_KEYS.SESSION_COUNT, '0');
+    localStorage.removeItem(STORAGE_KEYS.LAST_SESSION);
+  }, []);
+
   return {
     sessionCount,
     settings,
     incrementSession,
-    updateSettings
+    updateSettings,
+    resetHistory
   };
 };
 
